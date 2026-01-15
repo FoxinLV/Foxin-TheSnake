@@ -699,20 +699,50 @@ function handleKey(event) {
 function handleSwipe() {
   let startX = 0;
   let startY = 0;
-  canvas.addEventListener('pointerdown', (event) => {
-    startX = event.clientX;
-    startY = event.clientY;
-  });
-  canvas.addEventListener('pointerup', (event) => {
-    const dx = event.clientX - startX;
-    const dy = event.clientY - startY;
+
+  const onStart = (x, y) => {
+    startX = x;
+    startY = y;
+  };
+
+  const onEnd = (x, y) => {
+    const dx = x - startX;
+    const dy = y - startY;
     if (Math.abs(dx) < 20 && Math.abs(dy) < 20) return;
     if (Math.abs(dx) > Math.abs(dy)) {
       handleDirection(dx > 0 ? 1 : -1, 0);
     } else {
       handleDirection(0, dy > 0 ? 1 : -1);
     }
+  };
+
+  canvas.addEventListener('pointerdown', (event) => {
+    onStart(event.clientX, event.clientY);
   });
+  canvas.addEventListener('pointerup', (event) => {
+    onEnd(event.clientX, event.clientY);
+  });
+
+  canvas.addEventListener(
+    'touchstart',
+    (event) => {
+      if (!event.touches.length) return;
+      event.preventDefault();
+      const touch = event.touches[0];
+      onStart(touch.clientX, touch.clientY);
+    },
+    { passive: false }
+  );
+  canvas.addEventListener(
+    'touchend',
+    (event) => {
+      event.preventDefault();
+      const touch = event.changedTouches[0];
+      if (!touch) return;
+      onEnd(touch.clientX, touch.clientY);
+    },
+    { passive: false }
+  );
 }
 
 function setMode(newMode) {
