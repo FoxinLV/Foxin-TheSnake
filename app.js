@@ -734,12 +734,26 @@ function handleSwipe() {
     { passive: false }
   );
   canvas.addEventListener(
+    'touchmove',
+    (event) => {
+      event.preventDefault();
+    },
+    { passive: false }
+  );
+  canvas.addEventListener(
     'touchend',
     (event) => {
       event.preventDefault();
       const touch = event.changedTouches[0];
       if (!touch) return;
       onEnd(touch.clientX, touch.clientY);
+    },
+    { passive: false }
+  );
+  canvas.addEventListener(
+    'touchcancel',
+    (event) => {
+      event.preventDefault();
     },
     { passive: false }
   );
