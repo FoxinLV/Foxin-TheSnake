@@ -1,0 +1,186 @@
+﻿<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GitHub Snake Studio</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="ambient">
+      <div class="orb orb--one"></div>
+      <div class="orb orb--two"></div>
+      <div class="orb orb--three"></div>
+    </div>
+
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">GitHub Snake Studio</p>
+        <h1>Змейка, которая помнит всё</h1>
+      </div>
+      <div class="topbar__meta">
+        <span class="pill">Foxin Studio</span>
+        <span class="pill">5 режимов</span>
+        <span class="pill">Настройки в один клик</span>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="card game">
+        <div class="game__header">
+          <div>
+            <h2>Арена</h2>
+          </div>
+          <div class="game__badges">
+            <span class="badge" id="modeBadge">Classic</span>
+            <span class="badge" id="speedBadge">7x</span>
+          </div>
+        </div>
+
+        <div class="board">
+          <canvas id="board" width="560" height="560"></canvas>
+          <div class="overlay" id="overlay">
+            <div class="overlay__card">
+              <p class="overlay__title" id="overlayTitle">Готовы?</p>
+              <p class="overlay__subtitle" id="overlaySubtitle">Жми старт или пробел, чтобы начать.</p>
+              <button class="btn btn--primary" id="overlayAction">Старт</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="hud">
+          <div class="hud__stat">
+            <span class="label">Счёт</span>
+            <span class="value" id="scoreValue">0</span>
+          </div>
+          <div class="hud__stat">
+            <span class="label">Лучший</span>
+            <span class="value" id="bestValue">0</span>
+          </div>
+          <div class="hud__stat">
+            <span class="label">Комбо</span>
+            <span class="value" id="comboValue">x1</span>
+          </div>
+          <div class="hud__stat">
+            <span class="label">Время</span>
+            <span class="value" id="timeValue">00:00</span>
+          </div>
+        </div>
+
+        <div class="controls">
+          <button class="btn btn--primary" id="startBtn">Старт</button>
+          <button class="btn" id="pauseBtn">Пауза</button>
+          <button class="btn" id="resetBtn">Сброс</button>
+          <!-- <button class="btn" id="randomBtn">Сюрприз</button> -->
+        </div>
+
+        <div class="tips">
+          <p><strong>Управление:</strong> стрелки / WASD, свайп на мобильном.</p>
+          <p><strong>Бонус:</strong> в режиме Rush скорость растёт, в Portals есть телепорты.</p>
+        </div>
+      </section>
+
+      <aside class="side">
+        <section class="card settings">
+          <div class="card__title">
+            <h2>Настройки</h2>
+            <p class="muted">Сохраняются автоматически.</p>
+          </div>
+          <div class="form">
+            <label class="field">
+              <span>Режим игры</span>
+              <select id="modeSelect"></select>
+            </label>
+            <label class="field">
+              <span>Скорость</span>
+              <input id="speedRange" type="range" min="4" max="16" step="1" />
+            </label>
+            <label class="field">
+              <span>Размер сетки</span>
+              <input id="gridRange" type="range" min="12" max="28" step="2" />
+            </label>
+            <label class="field">
+              <span>Тема</span>
+              <select id="themeSelect"></select>
+            </label>
+            <label class="field toggle">
+              <input id="wrapToggle" type="checkbox" />
+              <span>Сквозные стены (wrap)</span>
+            </label>
+            <label class="field toggle">
+              <input id="trailToggle" type="checkbox" />
+              <span>Хвост со следом</span>
+            </label>
+            <label class="field toggle">
+              <input id="soundToggle" type="checkbox" />
+              <span>Звук</span>
+            </label>
+            <label class="field toggle">
+              <input id="gridToggle" type="checkbox" />
+              <span>Показывать сетку</span>
+            </label>
+          </div>
+        </section>
+
+        <section class="card stats">
+          <div class="card__title">
+            <h2>Статистика</h2>
+            <p class="muted">Обновляется после каждой игры.</p>
+          </div>
+          <div class="stats__grid">
+            <div>
+              <span class="label">Игр</span>
+              <span class="value" id="gamesPlayed">0</span>
+            </div>
+            <div>
+              <span class="label">Яблок</span>
+              <span class="value" id="totalFood">0</span>
+            </div>
+            <div>
+              <span class="label">Время</span>
+              <span class="value" id="totalTime">00:00</span>
+            </div>
+            <div>
+              <span class="label">Макс. длина</span>
+              <span class="value" id="maxLength">0</span>
+            </div>
+          </div>
+          <div class="stats__list" id="modeStats"></div>
+        </section>
+
+        <section class="card modes">
+          <div class="card__title">
+            <h2>Режимы</h2>
+            <p class="muted">Каждый режим — свой характер.</p>
+          </div>
+          <div class="mode">
+            <h3>Classic</h3>
+            <p>Честная змейка без трюков.</p>
+          </div>
+          <div class="mode">
+            <h3>Rush</h3>
+            <p>Скорость растёт с каждым фруктом.</p>
+          </div>
+          <div class="mode">
+            <h3>Labyrinth</h3>
+            <p>Случайные преграды и узкие коридоры.</p>
+          </div>
+          <div class="mode">
+            <h3>Portals</h3>
+            <p>Два портала телепортируют змейку.</p>
+          </div>
+          <div class="mode">
+            <h3>Time Attack</h3>
+            <p>90 секунд, чтобы сделать максимум очков.</p>
+          </div>
+        </section>
+      </aside>
+    </main>
+
+    <footer class="footer">
+      <p>Создано для GitHub Snake — настрой, играй, обновляй статистику.</p>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
