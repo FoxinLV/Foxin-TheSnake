@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="snakeGradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ff7a00" />
+      <stop offset="100%" stop-color="#1aa6a3" />
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="#10141b" />
+  <path
+    d="M18 18c8 0 12 4 12 9 0 4-3 7-9 7-5 0-8 2-8 6s3 6 8 6h10"
+    fill="none"
+    stroke="url(#snakeGradient)"
+    stroke-width="6"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <circle cx="42" cy="46" r="5" fill="#f8b83b" />
+  <circle cx="44.5" cy="44" r="1.2" fill="#10141b" />
+</svg>

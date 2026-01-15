@@ -259,11 +259,13 @@ body {
   justify-content: space-between;
   gap: 16px;
   flex-wrap: wrap;
+  align-items: center;
 }
 
 .game__badges {
   display: flex;
   gap: 8px;
+  align-items: center;
 }
 
 .badge {
